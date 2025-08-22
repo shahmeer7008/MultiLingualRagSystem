@@ -23,6 +23,15 @@ class Config:
 class MultilingualRAG:
     def __init__(self):
         self.embedding_model = SentenceTransformer(Config.EMBEDDING_MODEL)
+        try:
+            # Fix for meta tensor issue in Streamlit Cloud
+            if hasattr(self.embedding_model, "to_empty"):
+                self.embedding_model = self.embedding_model.to_empty(device="cpu")
+            else:
+                self.embedding_model = self.embedding_model.to("cpu")
+        except Exception as e:
+            st.warning(f"Embedding model device move issue: {e}")
+
         self.index = None
         self.documents = []
         self.metadata = []
