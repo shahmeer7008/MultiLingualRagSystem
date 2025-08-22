@@ -1,13 +1,11 @@
---extra-index-url https://download.pytorch.org/whl/cpu
-
 streamlit
 groq
 faiss-cpu
-sentence-transformers
+sentence-transformers==2.7.0
 langdetect
 PyPDF2
 python-docx
 python-dotenv
-torch==2.2.0+cpu
-torchvision==0.17.0+cpu
-torchaudio==2.2.0+cpu
+torch==2.2.0
+torchvision==0.17.0
+torchaudio==2.2.0
