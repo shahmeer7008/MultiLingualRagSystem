@@ -1,5 +1,9 @@
-langdetect
-pyPDF2
 tf-keras
+streamlit
 groq
+faiss-cpu
 sentence-transformers
+langdetect
+PyPDF2
+python-docx
+
