@@ -7,3 +7,4 @@ langdetect
 PyPDF2
 python-docx
 dotenv
+

@@ -22,7 +22,7 @@ class Config:
 
 class MultilingualRAG:
     def __init__(self):
-        self.embedding_model = SentenceTransformer(Config.EMBEDDING_MODEL)
+        self.embedding_model = SentenceTransformer(Config.EMBEDDING_MODEL,device='cpu')
         self.index = None
         self.documents = []
         self.metadata = []
