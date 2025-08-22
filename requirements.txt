@@ -1,0 +1,5 @@
+langdetect
+pyPDF2
+tf-keras
+groq
+sentence-transformers
