@@ -16,21 +16,24 @@ load_dotenv()
 class Config:
     GROQ_API_KEY = os.getenv("GROQ_API_KEY")
     EMBEDDING_MODEL = "paraphrase-multilingual-MiniLM-L12-v2"
-    CHUNK_SIZE = 500
-    CHUNK_OVERLAP = 50
+    CHUNK_SIZE = 180
+    CHUNK_OVERLAP = 40
     SUPPORTED_LANGUAGES = ['en', 'ur', 'ar', 'fr', 'es', 'de', 'zh', 'hi', 'ja', 'ko', 'it', 'pt', 'ru']
 
 class MultilingualRAG:
     def __init__(self):
         self.embedding_model = SentenceTransformer(Config.EMBEDDING_MODEL)
-        try:
-            # Fix for meta tensor issue in Streamlit Cloud
-            if hasattr(self.embedding_model, "to_empty"):
-                self.embedding_model = self.embedding_model.to_empty(device="cpu")
-            else:
-                self.embedding_model = self.embedding_model.to("cpu")
-        except Exception as e:
-            st.warning(f"Embedding model device move issue: {e}")
+
+
+        self.embedding_model.max_seq_length = 256
+        if hasattr(self.embedding_model, "tokenizer"):
+            try:
+                self.embedding_model.tokenizer.model_max_length = 256
+                
+                self.embedding_model.tokenizer.init_kwargs["model_max_length"] = 256
+            except Exception:
+                pass
+
 
         self.index = None
         self.documents = []
@@ -289,7 +292,7 @@ def main():
             st.subheader("Index Statistics")
             st.metric("Total Chunks", len(rag.documents))
             
-            # Language distribution
+           
             languages = {}
             for meta in rag.metadata:
                 lang = meta['language']
